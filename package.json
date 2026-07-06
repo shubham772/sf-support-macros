@@ -1,11 +1,11 @@
 {
-  "name": "sf-suppoty-macros",
+  "name": "sf-support-macros",
   "displayName": "Salesforce Support Macros",
   "description": "Production-safe macro library for Salesforce support and development teams. Local-only processing, zero telemetry.",
   "version": "1.0.0",
   "publisher": "your-org",
   "type": "commonjs",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "icon": "media/sf-icon.svg",
   "engines": {
     "vscode": "^1.85.0"
@@ -46,7 +46,7 @@
     },
     "commands": [
       {
-        "command": "sf-suppoty-macros.executeMacro",
+        "command": "sf-support-macros.executeMacro",
         "title": "Run Macro",
         "category": "Salesforce Support Macros"
       },
@@ -149,7 +149,7 @@
     "package": "vsce package --no-dependencies"
   },
   "devDependencies": {
-    "@types/vscode": "^1.125.0",
+    "@types/vscode": "^1.85.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "24.x",
     "@vscode/test-cli": "^0.0.15",
