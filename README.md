@@ -135,4 +135,4 @@ code --install-extension sf-suppoty-macros-1.0.0.vsix
 
 ## License
 
-UNLICENSED — internal team use only.
+MIT — internal team use only.
