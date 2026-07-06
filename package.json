@@ -3,10 +3,10 @@
   "displayName": "Salesforce Support Macros",
   "description": "Production-safe macro library for Salesforce support and development teams. Local-only processing, zero telemetry.",
   "version": "1.0.0",
-  "publisher": "your-org",
+  "publisher": "ShubhamPrajapati",
   "type": "commonjs",
   "license": "MIT",
-  "icon": "media/sf-icon.svg",
+  "icon": "media/icon.jpg",
   "engines": {
     "vscode": "^1.85.0"
   },
