@@ -1,26 +1,90 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+/**
+ * Salesforce Support Macros — VS Code Extension Entry Point
+ *
+ * SECURITY POSTURE:
+ * - Operates entirely locally (air-gapped). No telemetry, no external API calls.
+ * - Relies on the user's local Salesforce CLI (sf) keychain auth — no credentials stored here.
+ * - All user inputs are validated before use in templates or terminal commands.
+ */
+
 import * as vscode from 'vscode';
+import {
+	MacroTreeProvider,
+	MacroTreeItem,
+} from './providers/macroTreeProvider';
+import { MACRO_REGISTRY, getMacroById } from './macros/macroRegistry';
+import { MACRO_HANDLERS } from './macros/macroHandlers';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+async function runMacroById(macroId: string): Promise<void> {
+	const macro = getMacroById(macroId);
+	if (!macro) {
+		vscode.window.showErrorMessage(`Unknown macro: ${macroId}`);
+		return;
+	}
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "sf-suppoty-macros" is now active!');
+	const handler = MACRO_HANDLERS[macroId];
+	if (!handler) {
+		vscode.window.showErrorMessage(
+			`No handler registered for macro: ${macro.label}`,
+		);
+		return;
+	}
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('sf-suppoty-macros.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Salesforce Support Macros!');
-	});
-
-	context.subscriptions.push(disposable);
+	try {
+		await handler();
+	} catch {
+		vscode.window.showErrorMessage(
+			`Macro "${macro.label}" failed. Check the active editor or terminal state.`,
+		);
+	}
 }
 
-// This method is called when your extension is deactivated
-export function deactivate() {}
+export function activate(context: vscode.ExtensionContext): void {
+	// ── Sidebar Tree View ───────────────────────────────────────────────────
+	const treeProvider = new MacroTreeProvider();
+	const treeView = vscode.window.createTreeView('sfSupportMacrosView', {
+		treeDataProvider: treeProvider,
+		showCollapseAll: true,
+	});
+
+	context.subscriptions.push(treeView);
+
+	// ── Execute Macro (tree click, context menu, or generic invoke) ──────────
+	const executeMacro = vscode.commands.registerCommand(
+		'sf-suppoty-macros.executeMacro',
+		async (arg: string | MacroTreeItem) => {
+			const macroId =
+				typeof arg === 'string' ? arg : arg?.macro?.id;
+			if (!macroId) {
+				vscode.window.showWarningMessage(
+					'Select a macro from the sidebar to run it.',
+				);
+				return;
+			}
+			await runMacroById(macroId);
+		},
+	);
+
+	context.subscriptions.push(executeMacro);
+
+	// ── Individual command-palette entries (one per macro) ─────────────────
+	for (const macro of MACRO_REGISTRY) {
+		const paletteCommand = vscode.commands.registerCommand(
+			`sf-suppoty-macros.executeMacro.${macro.id}`,
+			() => runMacroById(macro.id),
+		);
+		context.subscriptions.push(paletteCommand);
+	}
+
+	// ── Refresh Tree ────────────────────────────────────────────────────────
+	const refreshTree = vscode.commands.registerCommand(
+		'sf-suppoty-macros.refreshMacros',
+		() => treeProvider.refresh(),
+	);
+
+	context.subscriptions.push(refreshTree);
+}
+
+export function deactivate(): void {
+	// All disposables are managed via context.subscriptions — nothing to clean up.
+}

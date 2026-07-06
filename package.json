@@ -1,23 +1,143 @@
 {
   "name": "sf-suppoty-macros",
   "displayName": "Salesforce Support Macros",
-  "description": "",
-  "version": "0.0.1",
+  "description": "Production-safe macro library for Salesforce support and development teams. Local-only processing, zero telemetry.",
+  "version": "1.0.0",
+  "publisher": "your-org",
+  "type": "commonjs",
+  "license": "UNLICENSED",
+  "icon": "media/sf-icon.svg",
   "engines": {
-    "vscode": "^1.125.0"
+    "vscode": "^1.85.0"
   },
   "categories": [
+    "Snippets",
     "Other"
   ],
-  "activationEvents": [],
+  "keywords": [
+    "salesforce",
+    "apex",
+    "lwc",
+    "sf-cli",
+    "support",
+    "macros"
+  ],
+  "activationEvents": [
+    "onView:sfSupportMacrosView"
+  ],
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "sfSupportMacros",
+          "title": "Salesforce Support Macros",
+          "icon": "media/sf-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "sfSupportMacros": [
+        {
+          "id": "sfSupportMacrosView",
+          "name": "Macros"
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "sf-suppoty-macros.helloWorld",
-        "title": "Hello World"
+        "command": "sf-suppoty-macros.executeMacro",
+        "title": "Run Macro",
+        "category": "Salesforce Support Macros"
+      },
+      {
+        "command": "sf-suppoty-macros.refreshMacros",
+        "title": "Refresh Macros",
+        "category": "Salesforce Support Macros",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "sf-suppoty-macros.executeMacro.tryCatchLogging",
+        "title": "Insert Try-Catch Block with Custom Logging",
+        "category": "Salesforce Support Macros"
+      },
+      {
+        "command": "sf-suppoty-macros.executeMacro.apexTestMethod",
+        "title": "Insert Apex Test Method Template",
+        "category": "Salesforce Support Macros"
+      },
+      {
+        "command": "sf-suppoty-macros.executeMacro.lwcWireBoilerplate",
+        "title": "Insert LWC Wire Service Boilerplate",
+        "category": "Salesforce Support Macros"
+      },
+      {
+        "command": "sf-suppoty-macros.executeMacro.soqlForLoopWrapper",
+        "title": "Insert SOQL For-Loop Wrapper",
+        "category": "Salesforce Support Macros"
+      },
+      {
+        "command": "sf-suppoty-macros.executeMacro.smartSystemDebug",
+        "title": "Insert Smart System.debug",
+        "category": "Salesforce Support Macros"
+      },
+      {
+        "command": "sf-suppoty-macros.executeMacro.logParserFilter",
+        "title": "Filter Log (USER_DEBUG / Exceptions)",
+        "category": "Salesforce Support Macros"
+      },
+      {
+        "command": "sf-suppoty-macros.executeMacro.bypassTriggerValidation",
+        "title": "Insert Bypass Trigger/Validation Logic",
+        "category": "Salesforce Support Macros"
+      },
+      {
+        "command": "sf-suppoty-macros.executeMacro.quickDeployCurrentFile",
+        "title": "Quick Deploy Current File",
+        "category": "Salesforce Support Macros"
+      },
+      {
+        "command": "sf-suppoty-macros.executeMacro.runCurrentTestClass",
+        "title": "Run Current Test Class",
+        "category": "Salesforce Support Macros"
+      },
+      {
+        "command": "sf-suppoty-macros.executeMacro.openCurrentOrg",
+        "title": "Open Current Org",
+        "category": "Salesforce Support Macros"
+      },
+      {
+        "command": "sf-suppoty-macros.executeMacro.hardRefreshOrgOpen",
+        "title": "Hard Refresh Org Open",
+        "category": "Salesforce Support Macros"
+      },
+      {
+        "command": "sf-suppoty-macros.executeMacro.quickRecordIdSearch",
+        "title": "Quick Record ID Search",
+        "category": "Salesforce Support Macros"
+      },
+      {
+        "command": "sf-suppoty-macros.executeMacro.mockDataGenerator",
+        "title": "Insert Mock Data Generator Snippet",
+        "category": "Salesforce Support Macros"
       }
-    ]
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "sf-suppoty-macros.refreshMacros",
+          "when": "view == sfSupportMacrosView",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "sf-suppoty-macros.executeMacro",
+          "when": "view == sfSupportMacrosView && viewItem == macroItem",
+          "group": "inline"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -25,17 +145,19 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "package": "vsce package --no-dependencies"
   },
   "devDependencies": {
     "@types/vscode": "^1.125.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "24.x",
-    "typescript-eslint": "^8.61.1",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.0.0",
+    "@vscode/vsce": "^3.7.1",
     "eslint": "^10.5.0",
     "typescript": "^6.0.3",
-    "@vscode/test-cli": "^0.0.15",
-    "@vscode/test-electron": "^3.0.0"
+    "typescript-eslint": "^8.61.1"
   },
   "overrides": {
     "diff": "^8.0.4",
