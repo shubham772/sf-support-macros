@@ -1,138 +1,75 @@
 # Salesforce Support Macros
 
-A production-safe VS Code extension for Salesforce support and development teams. Provides a categorized sidebar of **Macros** — code snippets, CLI commands, and parameterized workflows — to reduce repetitive work and speed up debugging.
+Salesforce Support Macros is a VS Code extension I am preparing for publication on the Visual Studio Marketplace. It provides a categorized sidebar of Salesforce support macros, letting support engineers and developers quickly insert Apex snippets, run Salesforce CLI commands, or inspect org state with a few clicks.
 
-## Security posture
+## Why publish this extension?
 
-This extension is designed for teams working against **live Production orgs**:
+This extension is built for support teams who need a safer, faster way to perform repeatable org diagnostics and troubleshooting from inside VS Code.
 
-- **Local-only operation** — no telemetry, no external API calls, no data transmission
-- **No credential storage** — relies entirely on your local `sf` CLI keychain authentication
-- **Input validation** — Salesforce IDs and Apex identifiers are regex-validated before use
-- **Safe CLI invocation** — all terminal arguments are shell-quoted to prevent injection
-- **In-memory log filtering** — debug log parsing never writes filtered content to disk
+- Supports Salesforce Production and sandbox orgs with local-only logic
+- Provides insertable Apex templates, validated CLI workflows, and debug helpers
+- Reduces typing and context switching during incident response
 
-## Requirements
+## Key features
 
-- [Visual Studio Code](https://code.visualstudio.com/) 1.85+
-- [Salesforce CLI (`sf`)](https://developer.salesforce.com/tools/salesforcecli) installed and authenticated locally
+### Macro categories
 
-## Features
-
-### Sidebar: Salesforce Support Macros
-
-Click the cloud icon in the Activity Bar to open the categorized macro tree:
-
-| Category | Macros |
-|---|---|
-| **Apex & LWC** | Try-Catch logging, Test method template, LWC @wire boilerplate, SOQL for-loop wrapper |
-| **Debugging** | Smart System.debug, Log parser filter, Trigger bypass snippet |
-| **Deployment & CLI** | Quick deploy, Run test class, Open org, Hard refresh org open |
-| **Data Operations** | Record ID search, Mock data generator |
+- **Critical Troubleshooting & System Logs** — failed async jobs, flex queue, long-running Apex jobs, inactive triggers, scheduled jobs, paused flow interviews, exception context
+- **User Access & Security** — frozen logins, locked-out users, active sessions, permission set assignments, inactive user API footprint, roleless users, privileged users, never-logged-in accounts
+- **Data Fixes & Purging** — orphaned content documents, bulk undelete template, custom setting cleanup, duplicate audit, accounts without contacts, queue review, stale records, soft-delete counts, null field audits
+- **Limits & Automation Auditing** — skew and record counts, trigger/flow overlap, ownership skew scan, governor headroom, batch risk objects, trigger density, flow density, query selectivity
+- **Integration & API Monitoring** — integration user audits, platform event baseline, email volume, outbound message / event templates
+- **Storage & Data Governance** — largest files, old files, task growth, legacy attachment volume, record growth baseline
+- **Org Configuration Audit** — queue membership, record types, business hours, role hierarchy, profile inventory
 
 ### Execution modes
 
-- **Insert** — inserts code at the cursor in the active editor
+- **Insert** — inserts a snippet directly into the active editor
 - **Terminal** — runs a validated `sf` CLI command in the integrated terminal
-- **Prompt** — opens a secure quick-input box with validation (e.g., Record ID search)
+- **Prompt** — prompts for input securely and validates it before use
 
-## Project structure
+## Changelog
 
-```
-sf-suppoty-macros/
-├── media/
-│   └── sf-icon.svg              # Activity Bar icon
-├── src/
-│   ├── extension.ts             # activate / deactivate entry point
-│   ├── types/
-│   │   └── macro.ts             # Macro type definitions
-│   ├── security/
-│   │   └── inputValidation.ts   # ID validation, shell quoting
-│   ├── macros/
-│   │   ├── macroRegistry.ts     # All macro definitions
-│   │   └── macroHandlers.ts     # Insert / terminal / prompt logic
-│   └── providers/
-│       └── macroTreeProvider.ts # Sidebar TreeDataProvider
-├── package.json
-└── tsconfig.json
-```
+### 1.0.0 — Initial marketplace-ready release
 
-## Setup & development
+- Added core sidebar macro tree with support categories and reusable helper flows
+- Implemented local-only execution modes for safe Apex snippet insertion and CLI commands
+- Added support for Salesforce CLI workflows such as quick deploy, org open, and test execution
+- Added log file filtering and smart debug insertion helpers for faster troubleshooting
+- Added user/access auditing macros and org health inspection templates
+- Added secure input validation and shell-safe sf command execution
+- Updated project to MIT license for publishing
 
-### 1. Install dependencies
+## Requirements
+
+- [Visual Studio Code](https://code.visualstudio.com/) 1.85 or later
+- [Salesforce CLI (`sf`)](https://developer.salesforce.com/tools/salesforcecli) installed and authenticated locally
+
+## Installation
+
+This extension is intended for installation directly from the Visual Studio Code Marketplace.
+
+### For development
 
 ```bash
 npm install
-```
-
-### 2. Compile TypeScript
-
-```bash
 npm run compile
 ```
 
-For continuous rebuild during development:
+### Run in VS Code
 
-```bash
-npm run watch
-```
+1. Open the extension folder in VS Code
+2. Press **F5** to launch the Extension Development Host
+3. Open the Salesforce Support Macros view from the Activity Bar
 
-### 3. Run in Extension Development Host (F5)
+## Usage
 
-1. Open this folder in VS Code
-2. Press **F5** (or Run → Start Debugging → **Run Extension**)
-3. A new VS Code window opens with the extension loaded
-4. Click the **Salesforce Support Macros** icon in the Activity Bar
+- Open the sidebar and select a macro to insert code or run an action
+- Use the built-in quick record ID search to validate IDs before running commands
+- Open `.log` files and use the log parser macro to filter relevant debug lines
+- Run current Apex test class directly from the active `.cls` file
 
-### 4. Lint & test
-
-```bash
-npm run lint
-npm test
-```
-
-## Package for team distribution (.vsix)
-
-Install the packaging tool (included as devDependency):
-
-```bash
-npm install
-```
-
-Build and package:
-
-```bash
-npm run compile
-npm run package
-```
-
-This produces `sf-suppoty-macros-1.0.0.vsix` in the project root.
-
-### Install the .vsix on team machines
-
-**Via VS Code UI:** Extensions → `...` menu → **Install from VSIX...**
-
-**Via CLI:**
-
-```bash
-code --install-extension sf-suppoty-macros-1.0.0.vsix
-```
-
-## Usage tips
-
-- **Smart System.debug:** Highlight a variable name, then run the macro
-- **SOQL For-Loop Wrapper:** Select a SOQL query or run with no selection for the default template
-- **Log Parser Filter:** Open a `.log` file first — results open in a local preview document
-- **Run Current Test Class:** Active file must be a `.cls` file containing `@isTest`
-- **Quick Record ID Search:** Enter a validated 15/18-char ID, then choose browser open or SOQL insert
-
-## Adding new macros
-
-1. Add a definition to `src/macros/macroRegistry.ts`
-2. Implement the handler in `src/macros/macroHandlers.ts` and register it in `MACRO_HANDLERS`
-3. Add a matching command entry in `package.json` → `contributes.commands`
-4. Recompile and test
 
 ## License
 
-This project is released under the MIT License — see the `LICENSE` file in the repository.
+Released under the MIT License. See `LICENSE` for details.

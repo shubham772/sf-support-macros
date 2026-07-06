@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-label="SF Macros icon">
+  <rect width="128" height="128" rx="16" fill="#000000"/>
+  <g transform="translate(24,24) scale(0.625)">
+    <path d="M40 0 L80 40 L40 80 L0 40 Z" fill="#ffffff"/>
+  </g>
+</svg>
