@@ -15,13 +15,9 @@ export interface MacroDefinition {
 	tooltip?: string;
 }
 
-export type MacroCategory =
-	| 'Apex & LWC'
-	| 'Debugging'
-	| 'Deployment & CLI'
-	| 'Data Operations';
+export type MacroCategory = string;
 
-export const MACRO_CATEGORIES: MacroCategory[] = [
+export const MACRO_CATEGORIES: string[] = [
 	'Apex & LWC',
 	'Debugging',
 	'Deployment & CLI',

@@ -396,3 +396,31 @@ export const MACRO_HANDLERS: Record<string, () => Promise<void>> = {
 	quickRecordIdSearch: quickRecordIdSearch,
 	mockDataGenerator: insertMockDataGenerator,
 };
+
+// --- Dynamic support macros from external catalog -----------------------
+import { SUPPORT_MACROS_CATALOG } from './macrosCatalog';
+
+/** Open the macro code in a new untitled Apex editor for review/execution. */
+async function openMacroCodeInEditor(code: string, label?: string): Promise<void> {
+	const doc = await vscode.workspace.openTextDocument({
+		content: code,
+		language: 'apex',
+	});
+	await vscode.window.showTextDocument(doc, { preview: false });
+	if (label) {
+		vscode.window.showInformationMessage(`Opened macro: ${label}`);
+	}
+}
+
+if (SUPPORT_MACROS_CATALOG && Array.isArray(SUPPORT_MACROS_CATALOG.categories)) {
+	for (const cat of SUPPORT_MACROS_CATALOG.categories as any[]) {
+		for (const m of cat.macros as any[]) {
+			// Use bracket notation because some ids include hyphens
+			MACRO_HANDLERS[m.id] = async () => {
+				await openMacroCodeInEditor(m.code, m.label);
+			};
+		}
+	}
+} else {
+	// defensive: nothing to register if catalog missing
+}

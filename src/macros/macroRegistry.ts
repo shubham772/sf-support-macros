@@ -1,4 +1,5 @@
 import { MacroDefinition, MacroExecutionMode } from '../types/macro';
+import { SUPPORT_MACROS_CATALOG } from './macrosCatalog';
 
 /**
  * Central registry of all Salesforce Support Macros.
@@ -105,6 +106,26 @@ export const MACRO_REGISTRY: MacroDefinition[] = [
 		mode: MacroExecutionMode.Insert,
 	},
 ];
+
+// Append macros from the external support catalog. These are primarily
+// insert-mode Anonymous Apex / support templates. We map each catalog
+// macro into a `MacroDefinition` used by the tree view and palette.
+if (SUPPORT_MACROS_CATALOG && Array.isArray(SUPPORT_MACROS_CATALOG.categories)) {
+	for (const cat of SUPPORT_MACROS_CATALOG.categories as any[]) {
+		for (const m of cat.macros as any[]) {
+		MACRO_REGISTRY.push({
+			id: m.id,
+			label: m.label,
+			description: m.description || m.label,
+			category: cat.label,
+			mode: MacroExecutionMode.Insert,
+			tooltip: m.tooltip,
+		});
+		}
+	}
+} else {
+	// defensive fallback — no external catalog found
+}
 
 /** Lookup a macro by its stable id. */
 export function getMacroById(id: string): MacroDefinition | undefined {
