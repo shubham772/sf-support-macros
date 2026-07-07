@@ -2,7 +2,7 @@
   "name": "salesforce-support-macro-suite",
   "displayName": "Salesforce Support Macro Suite",
   "description": "Production-safe macro library for Salesforce support and development teams. Local-only processing, zero telemetry.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "ShubhamPrajapati",
   "type": "commonjs",
   "license": "MIT",
