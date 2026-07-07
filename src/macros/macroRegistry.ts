@@ -94,7 +94,7 @@ export const MACRO_REGISTRY: MacroDefinition[] = [
 	{
 		id: 'quickRecordIdSearch',
 		label: 'Quick Record ID Search',
-		description: 'Validate ID and generate SOQL or open record in browser',
+		description: 'Validate ID and generate SOQL or retrieve record data',
 		category: 'Data Operations',
 		mode: MacroExecutionMode.Prompt,
 	},

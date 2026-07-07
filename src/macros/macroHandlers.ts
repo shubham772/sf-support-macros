@@ -331,7 +331,7 @@ export async function quickRecordIdSearch(): Promise<void> {
 
 	const action = await vscode.window.showQuickPick(
 		[
-			{ label: 'Open in Browser', description: 'sf org open --path /<id>' },
+			{ label: 'Show Record Data', description: 'sf data get record' },
 			{ label: 'Insert SOQL Query', description: 'Insert SELECT query at cursor' },
 		],
 		{ title: 'Record ID Action', placeHolder: 'Choose an action' },
@@ -341,8 +341,30 @@ export async function quickRecordIdSearch(): Promise<void> {
 		return;
 	}
 
-	if (action.label === 'Open in Browser') {
-		const command = buildSfCommand('sf org open --path', [`/${recordId}`]);
+	if (action.label === 'Show Record Data') {
+		let objectName = objectHintFromId(recordId);
+		if (!objectName) {
+			objectName = await vscode.window.showInputBox({
+				title: 'Enter SObject API Name',
+				prompt: 'Could not automatically determine SObject type from ID. Enter the SObject API Name:',
+				placeHolder: 'Account',
+				validateInput: (value) => {
+					if (!value.trim()) {
+						return 'SObject API Name is required.';
+					}
+					return undefined;
+				},
+			});
+			if (!objectName) {
+				return;
+			}
+		}
+
+		const command = buildSfCommand('sf data get record --sobject', [
+			objectName,
+			'--record-id',
+			recordId,
+		]);
 		runSfCommand(command);
 		return;
 	}
