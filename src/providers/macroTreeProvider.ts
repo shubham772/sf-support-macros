@@ -34,7 +34,7 @@ export class MacroTreeItem extends vscode.TreeItem {
 			this.tooltip = macro.tooltip ?? macro.description;
 			this.iconPath = iconForMode(macro.mode);
 			this.command = {
-				command: 'sf-suppoty-macros.executeMacro',
+				command: 'sf-support-macros.executeMacro',
 				title: macro.label,
 				arguments: [macro.id],
 			};
@@ -77,8 +77,15 @@ export class MacroTreeProvider
 
 	getChildren(element?: MacroTreeItem): MacroTreeItem[] {
 		if (!element) {
-			// Root: return category nodes
-			return MACRO_CATEGORIES.map(
+			// Root: return static categories first, then any dynamic categories from catalog
+			const dynamicCategories = Array.from(
+				new Set(MACRO_REGISTRY.map((m) => m.category)),
+			);
+			const categories = Array.from(
+				new Set([...MACRO_CATEGORIES, ...dynamicCategories]),
+			);
+
+			return categories.map(
 				(category) =>
 					new MacroTreeItem(
 						category,

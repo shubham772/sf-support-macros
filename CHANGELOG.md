@@ -8,6 +8,29 @@ This project adheres to https://keepachangelog.com/ principles.
 
 - No changes yet.
 
+## [1.0.5] - 2026-07-11
+
+### Added
+
+- Expanded support macro catalog with additional Salesforce operational categories and diagnostics templates, including:
+  - Critical Troubleshooting & System Logs
+  - User Access & Security
+  - Data Fixes & Purging
+  - Recursive & Governor Limit Auditing
+  - Integration & API Monitoring
+  - Storage & Data Governance
+  - Org Configuration Audit
+
+### Changed
+
+- Updated the macros catalog formatting and structure for improved maintainability and marketplace release readiness.
+- Tree view category rendering now supports dynamically discovered categories from the macro registry.
+
+### Fixed
+
+- Corrected command namespace typo from `sf-suppoty-macros` to `sf-support-macros` across command contributions and runtime registrations.
+- Fixed command/menu contribution mismatch that caused Marketplace validation warnings for undefined command references.
+
 ## [1.0.4] - 2026-07-07
 
 ### Added
