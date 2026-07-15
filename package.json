@@ -2,7 +2,7 @@
   "name": "salesforce-support-macro-suite",
   "displayName": "Salesforce Support Macro Suite",
   "description": "Production-safe macro library for Salesforce support and development teams. Local-only processing, zero telemetry.",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "publisher": "ShubhamPrajapati",
   "type": "commonjs",
   "license": "MIT",
@@ -51,73 +51,73 @@
         "category": "Salesforce Support Macro Suite"
       },
       {
-        "command": "sf-suppoty-macros.refreshMacros",
+        "command": "sf-support-macros.refreshMacros",
         "title": "Refresh Macros",
         "category": "Salesforce Support Macro Suite",
         "icon": "$(refresh)"
       },
       {
-        "command": "sf-suppoty-macros.executeMacro.tryCatchLogging",
+        "command": "sf-support-macros.executeMacro.tryCatchLogging",
         "title": "Insert Try-Catch Block with Custom Logging",
         "category": "Salesforce Support Macro Suite"
       },
       {
-        "command": "sf-suppoty-macros.executeMacro.apexTestMethod",
+        "command": "sf-support-macros.executeMacro.apexTestMethod",
         "title": "Insert Apex Test Method Template",
         "category": "Salesforce Support Macro Suite"
       },
       {
-        "command": "sf-suppoty-macros.executeMacro.lwcWireBoilerplate",
+        "command": "sf-support-macros.executeMacro.lwcWireBoilerplate",
         "title": "Insert LWC Wire Service Boilerplate",
         "category": "Salesforce Support Macro Suite"
       },
       {
-        "command": "sf-suppoty-macros.executeMacro.soqlForLoopWrapper",
+        "command": "sf-support-macros.executeMacro.soqlForLoopWrapper",
         "title": "Insert SOQL For-Loop Wrapper",
         "category": "Salesforce Support Macro Suite"
       },
       {
-        "command": "sf-suppoty-macros.executeMacro.smartSystemDebug",
+        "command": "sf-support-macros.executeMacro.smartSystemDebug",
         "title": "Insert Smart System.debug",
         "category": "Salesforce Support Macro Suite"
       },
       {
-        "command": "sf-suppoty-macros.executeMacro.logParserFilter",
+        "command": "sf-support-macros.executeMacro.logParserFilter",
         "title": "Filter Log (USER_DEBUG / Exceptions)",
         "category": "Salesforce Support Macro Suite"
       },
       {
-        "command": "sf-suppoty-macros.executeMacro.bypassTriggerValidation",
+        "command": "sf-support-macros.executeMacro.bypassTriggerValidation",
         "title": "Insert Bypass Trigger/Validation Logic",
         "category": "Salesforce Support Macro Suite"
       },
       {
-        "command": "sf-suppoty-macros.executeMacro.quickDeployCurrentFile",
+        "command": "sf-support-macros.executeMacro.quickDeployCurrentFile",
         "title": "Quick Deploy Current File",
         "category": "Salesforce Support Macro Suite"
       },
       {
-        "command": "sf-suppoty-macros.executeMacro.runCurrentTestClass",
+        "command": "sf-support-macros.executeMacro.runCurrentTestClass",
         "title": "Run Current Test Class",
         "category": "Salesforce Support Macro Suite"
       },
       {
-        "command": "sf-suppoty-macros.executeMacro.openCurrentOrg",
+        "command": "sf-support-macros.executeMacro.openCurrentOrg",
         "title": "Open Current Org",
         "category": "Salesforce Support Macro Suite"
       },
       {
-        "command": "sf-suppoty-macros.executeMacro.hardRefreshOrgOpen",
+        "command": "sf-support-macros.executeMacro.hardRefreshOrgOpen",
         "title": "Hard Refresh Org Open",
         "category": "Salesforce Support Macro Suite"
       },
       {
-        "command": "sf-suppoty-macros.executeMacro.quickRecordIdSearch",
+        "command": "sf-support-macros.executeMacro.quickRecordIdSearch",
         "title": "Quick Record ID Search",
         "category": "Salesforce Support Macro Suite"
       },
       {
-        "command": "sf-suppoty-macros.executeMacro.mockDataGenerator",
+        "command": "sf-support-macros.executeMacro.mockDataGenerator",
         "title": "Insert Mock Data Generator Snippet",
         "category": "Salesforce Support Macro Suite"
       }
@@ -125,14 +125,14 @@
     "menus": {
       "view/title": [
         {
-          "command": "sf-suppoty-macros.refreshMacros",
+          "command": "sf-support-macros.refreshMacros",
           "when": "view == sfSupportMacrosView",
           "group": "navigation"
         }
       ],
       "view/item/context": [
         {
-          "command": "sf-suppoty-macros.executeMacro",
+          "command": "sf-support-macros.executeMacro",
           "when": "view == sfSupportMacrosView && viewItem == macroItem",
           "group": "inline"
         }

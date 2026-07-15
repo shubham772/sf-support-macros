@@ -51,7 +51,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
 	// ── Execute Macro (tree click, context menu, or generic invoke) ──────────
 	const executeMacro = vscode.commands.registerCommand(
-		'sf-suppoty-macros.executeMacro',
+		'sf-support-macros.executeMacro',
 		async (arg: string | MacroTreeItem) => {
 			const macroId =
 				typeof arg === 'string' ? arg : arg?.macro?.id;
@@ -70,7 +70,7 @@ export function activate(context: vscode.ExtensionContext): void {
 	// ── Individual command-palette entries (one per macro) ─────────────────
 	for (const macro of MACRO_REGISTRY) {
 		const paletteCommand = vscode.commands.registerCommand(
-			`sf-suppoty-macros.executeMacro.${macro.id}`,
+			`sf-support-macros.executeMacro.${macro.id}`,
 			() => runMacroById(macro.id),
 		);
 		context.subscriptions.push(paletteCommand);
@@ -78,7 +78,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
 	// ── Refresh Tree ────────────────────────────────────────────────────────
 	const refreshTree = vscode.commands.registerCommand(
-		'sf-suppoty-macros.refreshMacros',
+		'sf-support-macros.refreshMacros',
 		() => treeProvider.refresh(),
 	);
 
